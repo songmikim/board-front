@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@loadable/component": "^5.16.7",
+    "@types/styled-components": "^5.1.34",
     "classnames": "^2.5.1",
     "next": "15.4.6",
     "react": "19.1.0",
@@ -19,11 +20,12 @@
     "styled-components": "^6.1.19"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "^4",
+    "@eslint/eslintrc": "^3",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "tailwindcss": "^4",
+    "eslint": "^9",
+    "eslint-config-next": "15.4.6",
     "typescript": "^5"
   }
 }
