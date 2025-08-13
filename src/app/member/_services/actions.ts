@@ -1,5 +1,7 @@
 'use server'
 import { redirect } from 'next/navigation'
+import { cookies } from 'next/headers'
+
 /**
  * 회원가입 처리
  *
@@ -51,6 +53,10 @@ export async function processJoin(errors, formData: FormData) {
     hasErrors = true
   }
 
+  if (hasErrors) {
+    return errors
+  }
+
   // 회원 가입 처리를 위해  API 서버에 요청
   try {
     const apiUrl = `${process.env.API_URL}/member`
@@ -86,4 +92,80 @@ export async function processJoin(errors, formData: FormData) {
  * @param errors
  * @param formData
  */
-export async function processLogin(errors, formData: FormData) {}
+export async function processLogin(errors, formData: FormData) {
+  errors = {}
+  let hasErrors: boolean = false
+  const params: { email?: string; password?: string; redirectUrl?: string } = {
+    email: formData.get('email')?.toString(),
+    password: formData.get('password')?.toString(),
+  }
+  // 유효성 검사 S
+  if (!params.email || !params.email.trim()) {
+    errors.email = '이메일을 입력하세요.'
+    hasErrors = true
+  }
+
+  if (!params.password || !params.password.trim()) {
+    errors.password = '비밀번호를 입력하세요.'
+    hasErrors = true
+  }
+  // 유효성 검사 E
+
+  // API 백앤드로 요청을 보냄
+  const apiUrl = `${process.env.API_URL}/member/token`
+  const res = await fetch(apiUrl, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(params),
+  })
+
+  if (res.status === 200) {
+    // 로그인 성공, 토큰 발급 성공
+    const token = await res.text()
+    // 로그인 처리 - 토큰을 쿠키에 저장
+    const cookie = await cookies()
+    cookie.set('token', token, {
+      httpOnly: true,
+      path: '/',
+    })
+  } else {
+    // 로그인 실패
+    const json = await res.json()
+    return json.messages.global ? json.messages : { global: json.messages }
+  }
+
+  // 로그인 성공시 페이지 이동 - redurectUrl이 있다면 그 주소로 이동 아니면 메인페이지
+  const redirectUrl = formData.get('redirectUrl')?.toString()
+
+  redirect(redirectUrl ? redirectUrl : '/')
+}
+
+/*
+ * 로그인한 회원 정보를 조회
+ * - 요청 헤더 Authorization: Bearer 토큰
+ */
+export async function getLoggedMember() {
+  try {
+    const cookie = await cookies()
+    const token = cookie.get('token')?.value
+    if (!token) return
+
+    const apiUrl = `${process.env.API_URL}/member`
+    const res = await fetch(apiUrl, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+
+    if(res.status !== 200) {
+      return await res.json()
+    }
+
+  } catch (err) {
+    console.log('getLoggedMember() error:', err)
+  }
+
+}

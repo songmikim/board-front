@@ -3,7 +3,7 @@ type ButtonType = {
   width?: number | string
   height?: number
   color?: string
-  fontcolor?: string
+  fontColor?: string
   fontsize?: string
 }
 
