@@ -2,15 +2,10 @@
 import React from 'react'
 import styled, { css } from 'styled-components'
 
-const ContentBox = ({ children, className, width }) => {
-  return (
-    <section className={'layout-width ' + className} width={width}>
-      {children}
-    </section>
-  )
-}
-
-const StyledContentBox = styled(ContentBox)<any>`
+const StyledContentBox = styled.section<{
+  children: React.ReactNode
+  width?: number
+}>`
   padding: 50px;
   ${({ width }) =>
     width &&
@@ -19,4 +14,12 @@ const StyledContentBox = styled(ContentBox)<any>`
     `}
 `
 
-export default React.memo(StyledContentBox)
+const ContentBox = ({ children, width }) => {
+  return (
+    <StyledContentBox className="layout-width" width={width}>
+      {children}
+    </StyledContentBox>
+  )
+}
+
+export default React.memo(ContentBox)
