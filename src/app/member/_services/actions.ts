@@ -53,6 +53,7 @@ export async function processJoin(errors, formData: FormData) {
     hasErrors = true
   }
 
+  // 검증 실패시에는 에레 메세지를 출력하기 위한 상태값을 반환
   if (hasErrors) {
     return errors
   }
@@ -75,11 +76,6 @@ export async function processJoin(errors, formData: FormData) {
     }
   } catch (err: any) {
     return { global: err?.message }
-  }
-
-  // 검증 실패시에는 에레 메세지를 출력하기 위한 상태값을 반환
-  if (hasErrors) {
-    return errors
   }
 
   // 회원가입 완료시 로그인 페이지로 이동
@@ -111,6 +107,10 @@ export async function processLogin(errors, formData: FormData) {
   }
   // 유효성 검사 E
 
+  if (hasErrors) {
+    return errors
+  }
+
   // API 백앤드로 요청을 보냄
   const apiUrl = `${process.env.API_URL}/member/token`
   const res = await fetch(apiUrl, {
@@ -136,15 +136,15 @@ export async function processLogin(errors, formData: FormData) {
     return json.messages.global ? json.messages : { global: json.messages }
   }
 
-  // 로그인 성공시 페이지 이동 - redurectUrl이 있다면 그 주소로 이동 아니면 메인페이지
+  // 로그인 성공시 페이지 이동 - redurectUrl이 있다면 그 주소로 이동 아니면 메인페이지(/)로 이동
   const redirectUrl = formData.get('redirectUrl')?.toString()
 
   redirect(redirectUrl ? redirectUrl : '/')
 }
 
-/*
+/**
  * 로그인한 회원 정보를 조회
- * - 요청 헤더 Authorization: Bearer 토큰
+ *   - 요청 헤더 Authorization: Bearer 토큰
  */
 export async function getLoggedMember() {
   try {
@@ -160,12 +160,10 @@ export async function getLoggedMember() {
       },
     })
 
-    if(res.status !== 200) {
+    if (res.status === 200) {
       return await res.json()
     }
-
   } catch (err) {
     console.log('getLoggedMember() error:', err)
   }
-
 }

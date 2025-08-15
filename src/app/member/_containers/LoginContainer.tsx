@@ -10,16 +10,19 @@ type FormType = {
   redirectUrl?: string
 }
 
-const LoginContainer = () => {
+const LoginContainer = ({ redirectUrl }) => {
   const [errors, action, pending] = useActionState<any, any>(processLogin, {})
   const [form, setForm] = useState<FormType>({
     email: '',
     password: '',
+    redirectUrl: redirectUrl ?? '',
   })
 
   const searchParams = useSearchParams()
   useEffect(() => {
     const redirectUrl = searchParams.get('redirectUrl')?.toString()
+    if (!redirectUrl) return
+
     setForm((prev) => ({ ...prev, redirectUrl }))
   }, [searchParams])
 

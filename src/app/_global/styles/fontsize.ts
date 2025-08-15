@@ -1,4 +1,4 @@
-const fontSize = {
+const fontsize = {
   tiny: '0.65rem',
   small: '0.85rem',
   normal: '1rem',
@@ -7,4 +7,4 @@ const fontSize = {
   extra: '2rem',
 }
 
-export default fontSize
+export default fontsize

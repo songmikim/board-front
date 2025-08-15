@@ -2,7 +2,7 @@
 import styled, { css } from 'styled-components'
 import ButtonType from '../types/ButtonType'
 import color from '../styles/color'
-import fontSize from '../styles/fontsize'
+import fontsize from '../styles/fontsize'
 
 const commonStyle = css`
   width: 120px;
@@ -43,9 +43,9 @@ export const Button = styled.button<ButtonType>`
     ${({ fontSize: size }) => {
     size = size ?? 'medium'
     return css`
-      font-size: ${fontSize[size] ?? size};
+      font-size: ${fontsize[size] ?? size};
       svg {
-        font-size: ${fontSize[size] ?? size};
+        font-size: ${fontsize[size] ?? size};
       }
     `
   }}

@@ -13,7 +13,7 @@ const StyledForm = styled.form`
 const LoginForm = ({ errors, action, pending, form, onChange }) => {
   return (
     <StyledForm action={action} autoComplete="off">
-      <input type='hidden' name="redirectUrl" value={form?.redirectUrl ?? ''} />
+      <input type="hidden" name="redirectUrl" value={form?.redirectUrl ?? ''} />
       <Input
         type="text"
         name="email"

@@ -1,6 +1,5 @@
 'use client'
-import { getLoggedMember } from '@/app/member/_services/actions'
-import { createContext, useState } from 'react'
+import React, { createContext, useState } from 'react'
 
 type UserContextType = {
   states: any
@@ -8,7 +7,7 @@ type UserContextType = {
 }
 
 const UserContext = createContext<UserContextType>({
-  states: { getLoggedMember: undefined, isLogin: false, isAdmin: false },
+  states: { loggedMember: undefined, isLogin: false, isAdmin: false },
   actions: {
     setLoggedMember: undefined,
     setIsLogin: undefined,
@@ -19,10 +18,9 @@ const UserContext = createContext<UserContextType>({
 function UserProvider({ children, loggedMember }) {
   const [member, setLoggedMember] = useState(loggedMember)
   const [isLogin, setIsLogin] = useState(Boolean(loggedMember))
-  const [isAdmin, setIsAdmin] = useState(false)
-  if (isLogin) {
-    setIsAdmin(loggedMember.authority === 'ADMIN')
-  }
+  const [isAdmin, setIsAdmin] = useState(
+    loggedMember && loggedMember.authority === 'ADMIN',
+  )
 
   const value = {
     states: { loggedMember: member, isLogin, isAdmin },
@@ -33,5 +31,6 @@ function UserProvider({ children, loggedMember }) {
 
 const { Consumer: UserConsumer } = UserContext
 
-export { UserProvider, UserConsumer}
+export { UserProvider, UserConsumer }
+
 export default UserContext

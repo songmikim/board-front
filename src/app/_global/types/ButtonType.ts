@@ -4,7 +4,7 @@ type ButtonType = {
   height?: number
   color?: string
   fontColor?: string
-  fontsize?: string
+  fontSize?: string
 }
 
 export default ButtonType
