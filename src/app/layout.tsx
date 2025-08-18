@@ -7,6 +7,7 @@ import StyledComponentsRegistry from './registry'
 import { getLoggedMember } from './member/_services/actions'
 import { UserProvider } from './_global/contexts/UserContext'
 import { CommonProvider } from './_global/contexts/CommonContext'
+import LayoutContainer from './_global/wrappers/LayoutContailner'
 import { redirect } from 'next/navigation'
 
 export const metadata: Metadata = {
@@ -30,10 +31,11 @@ export default async function RootLayout({
       <body>
         <StyledComponentsRegistry>
           <CommonProvider>
-            <UserProvider loggedMember={member}>
-              <Header />
-              <main className="main-content">{children}</main>
-              <Footer />
+            <UserProvider
+              loggedMember={member}
+              token={cookie.get('token')?.value}
+            >
+              <LayoutContainer>{children}</LayoutContainer>
             </UserProvider>
           </CommonProvider>
         </StyledComponentsRegistry>

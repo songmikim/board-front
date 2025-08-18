@@ -1,6 +1,7 @@
 'use server'
 import { redirect } from 'next/navigation'
 import { cookies } from 'next/headers'
+import { revalidateTag } from 'next/cache'
 
 /**
  * 회원가입 처리
@@ -130,6 +131,8 @@ export async function processLogin(errors, formData: FormData) {
       httpOnly: true,
       path: '/',
     })
+
+    revalidateTag('loggedMember')
   } else {
     // 로그인 실패
     const json = await res.json()
@@ -157,6 +160,9 @@ export async function getLoggedMember() {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${token}`,
+      },
+      next: {
+        tags: ['loggedMember'],
       },
     })
 
