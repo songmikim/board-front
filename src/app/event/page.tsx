@@ -1,10 +1,8 @@
-import EventListContainer from './_containers/EventListContainer'
-
-const getEvents = async () => {
-  return []
-}
+import EventListContainer, { type EventType } from './_containers/EventListContainer'
+import { getEvents } from './_services/actions'
 
 export default async function EventPage() {
-  const events = await getEvents()
+
+  const events: EventType[] = await getEvents()
   return <EventListContainer events={events} />
 }
