@@ -1,6 +1,10 @@
 'use client'
 import { createContext, useState } from 'react'
 import { HelmetProvider, Helmet } from 'react-helmet-async'
+import { CookiesProvider } from 'react-cookie'
+
+import { useEffect } from 'react'
+import { useSearchParams } from 'next/navigation'
 
 type CommonContextType = {
   states: { mainTitle: string }
@@ -18,14 +22,27 @@ const CommonProvider = ({ children }) => {
     states: { mainTitle },
     actions: { setMainTitle },
   }
+  const searchParams = useSearchParams()
+
+  useEffect(() => {
+    const reload = searchParams.get('reload') === 'true'
+    if (reload) {
+      const params = new URLSearchParams(location.search)
+      params.delete('reload')
+      location.search = params.toString()
+    }
+  }, [searchParams])
+
   return (
     <CommonContext.Provider value={value}>
-      <HelmetProvider>
-        <Helmet>
-          <title>{mainTitle}</title>
-        </Helmet>
-        {children}
-      </HelmetProvider>
+      <CookiesProvider>
+        <HelmetProvider>
+          <Helmet>
+            <title>{mainTitle}</title>
+          </Helmet>
+          {children}
+        </HelmetProvider>
+      </CookiesProvider>
     </CommonContext.Provider>
   )
 }
