@@ -1,4 +1,5 @@
 'use server'
+
 import { cookies } from 'next/headers'
 
 /**
@@ -27,7 +28,7 @@ export async function fetchSSR(url, options: RequestInit = {}) {
   const userHash = await getUserHash()
   if (userHash) {
     options.headers = options.headers ?? {}
-    options.headers['User-Hash'] = userHash
+    options.headers['User-Hash'] = userHash;
   }
 
   return fetch(`${process.env.API_URL}${url}`, options)

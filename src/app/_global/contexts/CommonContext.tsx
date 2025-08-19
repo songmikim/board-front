@@ -2,7 +2,6 @@
 import { createContext, useState } from 'react'
 import { HelmetProvider, Helmet } from 'react-helmet-async'
 import { CookiesProvider } from 'react-cookie'
-
 import { useEffect } from 'react'
 import { useSearchParams } from 'next/navigation'
 

@@ -7,12 +7,17 @@ type UserContextType = {
 }
 
 const UserContext = createContext<UserContextType>({
-  states: { loggedMember: undefined, isLogin: false, isAdmin: false },
+  states: {
+    loggedMember: undefined,
+    isLogin: false,
+    isAdmin: false,
+    token: null,
+  },
   actions: {
     setLoggedMember: undefined,
     setIsLogin: undefined,
     setIsAdmin: undefined,
-    token: undefined,
+    setToken: undefined,
   },
 })
 
@@ -23,9 +28,9 @@ function UserProvider({ children, loggedMember, token }) {
     loggedMember && loggedMember.authority === 'ADMIN',
   )
   const [_token, setToken] = useState(token)
-  
+
   const value = {
-    states: { loggedMember: member, isLogin, isAdmin, token },
+    states: { loggedMember: member, isLogin, isAdmin, token: _token },
     actions: { setLoggedMember, setIsLogin, setIsAdmin, setToken },
   }
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>

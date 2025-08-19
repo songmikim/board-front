@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation'
 import { cookies } from 'next/headers'
 import { revalidateTag } from 'next/cache'
 import { fetchSSR } from '@/app/_global/libs/utils'
+
 /**
  * 회원가입 처리
  *
@@ -140,9 +141,9 @@ export async function processLogin(errors, formData: FormData) {
   }
 
   // 로그인 성공시 페이지 이동 - redurectUrl이 있다면 그 주소로 이동 아니면 메인페이지(/)로 이동
-  const redirectUrl = formData.get('redirectUrl')?.toString()
-
-  redirect(redirectUrl ? redirectUrl : '/')
+  let redirectUrl = formData.get('redirectUrl')?.toString()
+  redirectUrl = redirectUrl ? redirectUrl : '/'
+  redirect(redirectUrl + '?reload=true')
 }
 
 /**
@@ -151,6 +152,7 @@ export async function processLogin(errors, formData: FormData) {
  */
 export async function getLoggedMember() {
   try {
+
     const res = await fetchSSR('/member', {
       method: 'GET',
       next: {
