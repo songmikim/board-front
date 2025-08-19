@@ -5,6 +5,7 @@ const menus = {
     { link: '/admin/board/register', text: '게시판 등록' },
     { link: '/admin/board/posts', text: '게시글 관리' },
   ],
+  '/admin/crawler': [],
 }
 
 export default menus
