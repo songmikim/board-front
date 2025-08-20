@@ -1,9 +1,13 @@
 import EventListContainer from './_containers/EventListContainer'
 import { getEvents } from './_services/actions'
-import type { EventType } from './_types'
+import type { EventListData } from './_types'
 
-export default async function EventPage() {
+type PageProps = {
+  searchParams: { page?: string }
+}
 
-  const events: EventType[] = await getEvents()
-  return <EventListContainer events={events} />
+export default async function EventPage({ searchParams }: PageProps) {
+  const page = Number(searchParams.page) || 1
+  const { items, pagination }: EventListData = await getEvents(page)
+  return <EventListContainer events={items} pagination={pagination} />
 }
