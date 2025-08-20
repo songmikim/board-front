@@ -9,4 +9,4 @@ export default async function EventDetailPage({ params }: { params: { hash: stri
     return null
   }
   return <EventDetailContainer event={event} />
-}
+

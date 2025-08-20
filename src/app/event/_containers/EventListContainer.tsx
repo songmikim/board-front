@@ -22,9 +22,9 @@ const EventListContainer = ({ events }: Props) => {
     <ul>
       {events.map((event) => (
         <li key={event.hash}>
-          <a href={event.link} target="_blank" rel="noopener noreferrer">
-            {event.title}
-          </a>
+
+          <Link href={`/event/${event.hash}`}>{event.title}</Link>
+
           <span> {event.date}</span>
         </li>
       ))}
