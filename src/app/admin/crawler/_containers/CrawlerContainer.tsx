@@ -1,20 +1,16 @@
 'use client'
-import React, { useState, useCallback, useEffect } from 'react'
-import useFetch from '@/app/_global/hooks/useFetch'
+import React, { useState, useCallback } from 'react'
 import { Button } from '@/app/_global/components/Buttons'
 import CrawlerConfigForm from '../_components/CrawlerConfigForm'
+import type { CrawlerConfigType } from '../_types'
+import { saveCrawlerConfigs, setCrawlerScheduler } from '../_services/actions'
 
-type FormType = {
-  url: string
-  keywords: string
-  linkSelector: string
-  titleSelector: string
-  dateSelector: string
-  contentSelector: string
-  urlPrefix: string
+type Props = {
+  initialConfigs: CrawlerConfigType[]
+  initialScheduler: boolean
 }
 
-const emptyForm: FormType = {
+const emptyForm: CrawlerConfigType = {
   url: '',
   keywords: '',
   linkSelector: '',
@@ -24,53 +20,25 @@ const emptyForm: FormType = {
   urlPrefix: '',
 }
 
-const CrawlerContainer = () => {
-  const { data: configData } = useFetch('/api/v1/crawler/configs')
-  const { data: schedulerData } = useFetch('/api/v1/crawler/scheduler')
-  const [forms, setForms] = useState<FormType[]>([emptyForm])
-  const [scheduler, setScheduler] = useState(false)
+const CrawlerContainer = ({ initialConfigs, initialScheduler }: Props) => {
+  const [forms, setForms] = useState<CrawlerConfigType[]>(
+    initialConfigs.length ? initialConfigs : [emptyForm]
+  )
+  const [scheduler, setScheduler] = useState(initialScheduler)
   const [saving, setSaving] = useState(false)
 
-  useEffect(() => {
-    if (Array.isArray(configData)) {
-      setForms(
-        configData.map((cfg) => ({
-          url: cfg.url ?? '',
-          keywords: cfg.keywords ? cfg.keywords.split('\n').join('\n') : '',
-          linkSelector: cfg.linkSelector ?? '',
-          titleSelector: cfg.titleSelector ?? '',
-          dateSelector: cfg.dateSelector ?? '',
-          contentSelector: cfg.contentSelector ?? '',
-          urlPrefix: cfg.urlPrefix ?? '',
-        }))
+  const onChange = useCallback(
+    (
+      index: number,
+      e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    ) => {
+      const { name, value } = e.target
+      setForms((prev) =>
+        prev.map((form, i) => (i === index ? { ...form, [name]: value } : form)),
       )
-    } else if (Array.isArray(configData?.data)) {
-      setForms(
-        configData.data.map((cfg) => ({
-          url: cfg.url ?? '',
-          keywords: cfg.keywords ? cfg.keywords.split('\n').join('\n') : '',
-          linkSelector: cfg.linkSelector ?? '',
-          titleSelector: cfg.titleSelector ?? '',
-          dateSelector: cfg.dateSelector ?? '',
-          contentSelector: cfg.contentSelector ?? '',
-          urlPrefix: cfg.urlPrefix ?? '',
-        }))
-      )
-    } else {
-      setForms([emptyForm])
-    }
-  }, [configData])
-
-  useEffect(() => {
-    if (schedulerData) {
-      setScheduler(schedulerData.enabled ?? false)
-    }
-  }, [schedulerData])
-
-  const onChange = useCallback((index, e) => {
-    const { name, value } = e.target
-    setForms((prev) => prev.map((form, i) => (i === index ? { ...form, [name]: value } : form)))
-  }, [])
+    },
+    [],
+  )
 
   const addForm = useCallback(() => {
     setForms((prev) => [...prev, { ...emptyForm }])
@@ -94,11 +62,7 @@ const CrawlerContainer = () => {
         contentSelector: f.contentSelector,
         urlPrefix: f.urlPrefix,
       }))
-      await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/crawler/configs`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body),
-      })
+      await saveCrawlerConfigs(body)
       alert('저장되었습니다.')
     } finally {
       setSaving(false)
@@ -108,10 +72,7 @@ const CrawlerContainer = () => {
   const toggleScheduler = useCallback(async () => {
     const enabled = !scheduler
     setScheduler(enabled)
-    await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/v1/crawler/scheduler?enabled=${enabled}`,
-      { method: 'POST' }
-    )
+    await setCrawlerScheduler(enabled)
   }, [scheduler])
 
   return (
