@@ -3,6 +3,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { Input, Textarea, TableCols } from '@/app/_global/components/Forms'
 import { Button } from '@/app/_global/components/Buttons'
+import type { CrawlerConfigType } from '../_types'
 
 const Wrapper = styled.div`
   & + & {
@@ -12,16 +13,11 @@ const Wrapper = styled.div`
 
 type Props = {
   index: number
-  form: {
-    url: string
-    keywords: string
-    linkSelector: string
-    titleSelector: string
-    dateSelector: string
-    contentSelector: string
-    urlPrefix: string
-  }
-  onChange: (index: number, e: any) => void
+  form: CrawlerConfigType
+  onChange: (
+    index: number,
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => void
   onRemove: (index: number) => void
 }
 
