@@ -107,3 +107,4 @@ const EventList = ({ query, onSearch, events, page, totalPages, onPageChange }: 
 }
 
 export default React.memo(EventList)
+
