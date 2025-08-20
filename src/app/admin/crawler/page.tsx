@@ -6,8 +6,8 @@ import CrawlerContainer from './_containers/CrawlerContainer'
 export default function AdminCrawlerPage() {
   return (
     <AdminOnlyContainer>
-      <ContentBox width={600}>
-        <MainTitle border>크롤링 관리</MainTitle>
+      <ContentBox>
+        <MainTitle border="true">크롤링 관리</MainTitle>
         <CrawlerContainer />
       </ContentBox>
     </AdminOnlyContainer>

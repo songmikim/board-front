@@ -21,7 +21,7 @@ export async function getEvents(page: number = 1): Promise<EventListData> {
 
 export async function getEvent(hash: string): Promise<EventType | null> {
   try {
-    const res = await fetchSSR(`/api/v1/events/${hash}`)
+    const res = await fetchSSR(`/events/${hash}`)
     if (res.ok) {
       return await res.json()
     }
