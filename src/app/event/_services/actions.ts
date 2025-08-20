@@ -5,7 +5,7 @@ import type { EventType } from '../_containers/EventListContainer'
 
 export async function getEvents(): Promise<EventType[]> {
   try {
-    const res = await fetchSSR('/api/v1/events')
+    const res = await fetchSSR('/events')
     if (res.ok) {
       const data = await res.json()
       return data.items ?? []
