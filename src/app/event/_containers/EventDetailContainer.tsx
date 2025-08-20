@@ -10,10 +10,14 @@ type Props = {
 
 const EventDetailContainer = ({ event }: Props) => {
   return (
-    <div>
+    <article>
       <h1>{event.title}</h1>
+      <time>{event.date}</time>
       {event.content && <p>{event.content}</p>}
-    </div>
+      <a href={event.link} target="_blank" rel="noopener noreferrer">
+        원문 보기
+      </a>
+    </article>
   )
 }
 
