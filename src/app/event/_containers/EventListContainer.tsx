@@ -1,17 +1,8 @@
 'use client'
 
 import React, { useMemo, useState } from 'react'
-import Link from 'next/link'
-
-export type EventType = {
-  hash: number
-  link: string
-  title: string
-  content: string | null
-  image?: string
-  html: boolean
-  date: string
-}
+import EventList from '../_components/EventList'
+import type { EventType } from '../_types'
 
 type Props = {
   events: EventType[]
@@ -43,55 +34,19 @@ const EventListContainer = ({ events }: Props) => {
     setPage(1)
   }
 
+  const handlePageChange = (p: number) => {
+    setPage(p)
+  }
+
   return (
-    <>
-      <div>
-        <input
-          type="text"
-          placeholder="검색"
-          value={query}
-          onChange={handleSearch}
-        />
-      </div>
-      <ul>
-        {paginatedEvents.map((event) => (
-          <li key={event.hash}>
-            <Link href={`/event/${event.hash}`} target="_self">
-              {event.title}
-            </Link>
-            <span> {event.date}</span>
-          </li>
-        ))}
-      </ul>
-      {totalPages > 1 && (
-        <nav>
-          <button
-            onClick={() => setPage((p) => Math.max(p - 1, 1))}
-            disabled={page === 1}
-          >
-            Prev
-          </button>
-          {Array.from({ length: totalPages }).map((_, idx) => {
-            const p = idx + 1
-            return (
-              <button
-                key={p}
-                onClick={() => setPage(p)}
-                disabled={p === page}
-              >
-                {p}
-              </button>
-            )
-          })}
-          <button
-            onClick={() => setPage((p) => Math.min(p + 1, totalPages))}
-            disabled={page === totalPages}
-          >
-            Next
-          </button>
-        </nav>
-      )}
-    </>
+    <EventList
+      query={query}
+      onSearch={handleSearch}
+      events={paginatedEvents}
+      page={page}
+      totalPages={totalPages}
+      onPageChange={handlePageChange}
+    />
   )
 }
 
