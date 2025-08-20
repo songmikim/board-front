@@ -1,12 +1,14 @@
 'use server'
 
 import { fetchSSR } from '@/app/_global/libs/utils'
+import type { EventType } from '../_containers/EventListContainer'
 
-export async function getEvents() {
+export async function getEvents(): Promise<EventType[]> {
   try {
     const res = await fetchSSR('/api/v1/events')
     if (res.ok) {
-      return await res.json()
+      const data = await res.json()
+      return data.items ?? []
     }
   } catch (err) {
     console.error(err)
@@ -14,9 +16,9 @@ export async function getEvents() {
   return []
 }
 
-export async function getEvent(seq: string) {
+export async function getEvent(hash: string): Promise<EventType | null> {
   try {
-    const res = await fetchSSR(`/api/v1/events/${seq}`)
+    const res = await fetchSSR(`/api/v1/events/${hash}`)
     if (res.ok) {
       return await res.json()
     }
