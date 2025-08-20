@@ -3,6 +3,7 @@ import { getEvent } from '../_services/actions'
 import type { EventType } from '../_containers/EventListContainer'
 
 export default async function EventDetailPage({ params }: { params: { hash: string } }) {
+
   const event: EventType | null = await getEvent(params.hash)
   if (!event) {
     return null
