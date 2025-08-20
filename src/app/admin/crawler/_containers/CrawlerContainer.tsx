@@ -32,7 +32,7 @@ const CrawlerContainer = () => {
   const [saving, setSaving] = useState(false)
 
   useEffect(() => {
-    if (configData) {
+    if (Array.isArray(configData)) {
       setForms(
         configData.map((cfg) => ({
           url: cfg.url ?? '',
@@ -44,6 +44,20 @@ const CrawlerContainer = () => {
           urlPrefix: cfg.urlPrefix ?? '',
         }))
       )
+    } else if (Array.isArray(configData?.data)) {
+      setForms(
+        configData.data.map((cfg) => ({
+          url: cfg.url ?? '',
+          keywords: cfg.keywords ? cfg.keywords.split('\n').join('\n') : '',
+          linkSelector: cfg.linkSelector ?? '',
+          titleSelector: cfg.titleSelector ?? '',
+          dateSelector: cfg.dateSelector ?? '',
+          contentSelector: cfg.contentSelector ?? '',
+          urlPrefix: cfg.urlPrefix ?? '',
+        }))
+      )
+    } else {
+      setForms([emptyForm])
     }
   }, [configData])
 
