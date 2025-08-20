@@ -5,7 +5,7 @@ import type { CrawlerConfigType } from '../_types'
 
 export async function getCrawlerConfigs(): Promise<CrawlerConfigType[]> {
   try {
-    const res = await fetchSSR('/api/v1/crawler/configs')
+    const res = await fetchSSR('/crawler/configs')
     if (res.ok) {
       const data = await res.json()
       const list = Array.isArray(data) ? data : Array.isArray(data?.data) ? data.data : []
@@ -29,7 +29,7 @@ export async function getCrawlerConfigs(): Promise<CrawlerConfigType[]> {
 
 export async function getCrawlerScheduler(): Promise<boolean> {
   try {
-    const res = await fetchSSR('/api/v1/crawler/scheduler')
+    const res = await fetchSSR('/crawler/scheduler')
     if (res.ok) {
       const data = await res.json()
       return data.enabled ?? false
@@ -41,7 +41,7 @@ export async function getCrawlerScheduler(): Promise<boolean> {
 }
 
 export async function saveCrawlerConfigs(configs: CrawlerConfigType[]) {
-  await fetchSSR('/api/v1/crawler/configs', {
+  await fetchSSR('/crawler/configs', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(configs),
@@ -49,5 +49,5 @@ export async function saveCrawlerConfigs(configs: CrawlerConfigType[]) {
 }
 
 export async function setCrawlerScheduler(enabled: boolean) {
-  await fetchSSR(`/api/v1/crawler/scheduler?enabled=${enabled}`, { method: 'POST' })
+  await fetchSSR(`/crawler/scheduler?enabled=${enabled}`, { method: 'POST' })
 }

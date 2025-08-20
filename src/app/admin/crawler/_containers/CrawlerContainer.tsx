@@ -77,11 +77,18 @@ const CrawlerContainer = ({ initialConfigs, initialScheduler }: Props) => {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-      <label style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+      {/* <label style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
         <input type="checkbox" checked={scheduler} onChange={toggleScheduler} />
         스케줄러 사용
-      </label>
-
+      </label> */}
+      <Button
+        type="button"
+        onClick={toggleScheduler}
+        color={scheduler ? 'danger' : 'primary'}
+      >
+        {scheduler ? '스케줄러 중지' : '스케줄러 실행'}
+      </Button>
+      
       {forms.map((form, index) => (
         <CrawlerConfigForm
           key={index}
