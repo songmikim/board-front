@@ -1,13 +1,36 @@
+"use client"
+
 import React from 'react'
 import Link from 'next/link'
+import styled from 'styled-components'
 import type { EventType } from '../_types'
 
 type Props = {
   event: EventType
 }
 
+const Article = styled.article`
+  line-height: 1.6;
+
+  h1 {
+    margin-bottom: 10px;
+    font-size: 24px;
+    font-weight: 700;
+  }
+
+  time {
+    display: block;
+    margin-bottom: 20px;
+    color: #666;
+  }
+
+  p {
+    margin-top: 20px;
+  }
+`
+
 const EventDetail = ({ event }: Props) => (
-  <article>
+  <Article>
     <h1>{event.title}</h1>
     <time>{event.date}</time>
     {event.content &&
@@ -26,7 +49,7 @@ const EventDetail = ({ event }: Props) => (
         목록으로
       </Link>
     </p>
-  </article>
+  </Article>
 )
 
 export default React.memo(EventDetail)

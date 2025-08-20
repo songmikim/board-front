@@ -1,5 +1,8 @@
+"use client"
+
 import React from 'react'
 import Link from 'next/link'
+import styled from 'styled-components'
 import type { EventType } from '../_types'
 
 type Props = {
@@ -11,29 +14,68 @@ type Props = {
   onPageChange: (p: number) => void
 }
 
+const Wrapper = styled.div`
+  width: 100%;
+`
+
+const SearchBox = styled.div`
+  margin-bottom: 20px;
+
+  input {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+  }
+`
+
+const List = styled.ul`
+  list-style: none;
+  padding: 0;
+  margin: 0;
+`
+
+const Item = styled.li`
+  & + & {
+    margin-top: 10px;
+  }
+
+  span {
+    margin-left: 10px;
+    color: #666;
+  }
+`
+
+const Pagination = styled.nav`
+  margin-top: 20px;
+
+  button {
+    margin-right: 5px;
+  }
+`
+
 const EventList = ({ query, onSearch, events, page, totalPages, onPageChange }: Props) => {
   return (
-    <>
-      <div>
+    <Wrapper>
+      <SearchBox>
         <input
           type="text"
           placeholder="검색"
           value={query}
           onChange={onSearch}
         />
-      </div>
-      <ul>
+      </SearchBox>
+      <List>
         {events.map((event) => (
-          <li key={event.hash}>
+          <Item key={event.hash}>
             <Link href={`/event/${event.hash}`} target="_self">
               {event.title}
             </Link>
-            <span> {event.date}</span>
-          </li>
+            <span>{event.date}</span>
+          </Item>
         ))}
-      </ul>
+      </List>
       {totalPages > 1 && (
-        <nav>
+        <Pagination>
           <button
             onClick={() => onPageChange(Math.max(page - 1, 1))}
             disabled={page === 1}
@@ -58,9 +100,9 @@ const EventList = ({ query, onSearch, events, page, totalPages, onPageChange }: 
           >
             Next
           </button>
-        </nav>
+        </Pagination>
       )}
-    </>
+    </Wrapper>
   )
 }
 
