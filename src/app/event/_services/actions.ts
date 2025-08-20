@@ -1,7 +1,7 @@
 'use server'
 
 import { fetchSSR } from '@/app/_global/libs/utils'
-import type { EventType } from '../_containers/EventListContainer'
+import type { EventType } from '../_types'
 
 export async function getEvents(): Promise<EventType[]> {
   try {

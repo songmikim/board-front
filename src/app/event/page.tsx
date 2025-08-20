@@ -1,5 +1,6 @@
-import EventListContainer, { type EventType } from './_containers/EventListContainer'
+import EventListContainer from './_containers/EventListContainer'
 import { getEvents } from './_services/actions'
+import type { EventType } from './_types'
 
 export default async function EventPage() {
 
