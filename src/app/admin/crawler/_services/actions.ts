@@ -51,3 +51,33 @@ export async function saveCrawlerConfigs(configs: CrawlerConfigType[]) {
 export async function setCrawlerScheduler(enabled: boolean) {
   await fetchSSR(`/crawler/scheduler?enabled=${enabled}`, { method: 'POST' })
 }
+
+export async function testCrawler(config: CrawlerConfigType) {
+  try {
+    const body = {
+      url: config.url,
+      keywords: config.keywords
+        ? config.keywords
+            .split('\n')
+            .map((k) => k.trim())
+            .filter(Boolean)
+        : [],
+      linkSelector: config.linkSelector,
+      titleSelector: config.titleSelector,
+      dateSelector: config.dateSelector,
+      contentSelector: config.contentSelector,
+      urlPrefix: config.urlPrefix,
+    }
+    const res = await fetchSSR('/crawler/test', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    })
+    if (res.ok) {
+      return await res.json()
+    }
+  } catch (err) {
+    console.error(err)
+  }
+  return null
+}

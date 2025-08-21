@@ -3,7 +3,11 @@ import React, { useState, useCallback } from 'react'
 import { Button } from '@/app/_global/components/Buttons'
 import CrawlerConfigForm from '../_components/CrawlerConfigForm'
 import type { CrawlerConfigType } from '../_types'
-import { saveCrawlerConfigs, setCrawlerScheduler } from '../_services/actions'
+import {
+  saveCrawlerConfigs,
+  setCrawlerScheduler,
+  testCrawler,
+} from '../_services/actions'
 
 type Props = {
   initialConfigs: CrawlerConfigType[]
@@ -47,6 +51,19 @@ const CrawlerContainer = ({ initialConfigs, initialScheduler }: Props) => {
   const removeForm = useCallback((index) => {
     setForms((prev) => prev.filter((_, i) => i !== index))
   }, [])
+
+  const onTest = useCallback(
+    async (index: number) => {
+      try {
+        const result = await testCrawler(forms[index])
+        alert(result ? JSON.stringify(result, null, 2) : '테스트 실패')
+      } catch (err) {
+        console.error(err)
+        alert('테스트 실패')
+      }
+    },
+    [forms],
+  )
 
   const save = useCallback(async () => {
     setSaving(true)
@@ -96,6 +113,7 @@ const CrawlerContainer = ({ initialConfigs, initialScheduler }: Props) => {
           form={form}
           onChange={onChange}
           onRemove={removeForm}
+          onTest={onTest}
         />
       ))}
 

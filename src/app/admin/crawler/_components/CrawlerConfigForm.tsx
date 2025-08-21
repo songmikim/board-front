@@ -19,9 +19,10 @@ type Props = {
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => void
   onRemove: (index: number) => void
+  onTest: (index: number) => void
 }
 
-const CrawlerConfigForm = ({ index, form, onChange, onRemove }: Props) => {
+const CrawlerConfigForm = ({ index, form, onChange, onRemove, onTest }: Props) => {
   return (
     <Wrapper>
       <TableCols thwidth={140}>
@@ -91,6 +92,14 @@ const CrawlerConfigForm = ({ index, form, onChange, onRemove }: Props) => {
                 value={form.urlPrefix}
                 onChange={(e) => onChange(index, e)}
               />
+            </td>
+          </tr>
+          <tr>
+            <th>테스트</th>
+            <td>
+              <Button type="button" onClick={() => onTest(index)}>
+                테스트
+              </Button>
             </td>
           </tr>
           <tr>
