@@ -68,18 +68,7 @@ const CrawlerContainer = ({ initialConfigs, initialScheduler }: Props) => {
   const save = useCallback(async () => {
     setSaving(true)
     try {
-      const body = forms.map((f) => ({
-        url: f.url,
-        keywords: f.keywords
-          ? f.keywords.split('\n').map((k) => k.trim()).filter(Boolean)
-          : [],
-        linkSelector: f.linkSelector,
-        titleSelector: f.titleSelector,
-        dateSelector: f.dateSelector,
-        contentSelector: f.contentSelector,
-        urlPrefix: f.urlPrefix,
-      }))
-      await saveCrawlerConfigs(body)
+      await saveCrawlerConfigs(forms)
       alert('저장되었습니다.')
     } finally {
       setSaving(false)
