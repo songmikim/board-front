@@ -2,23 +2,73 @@
 import React, { useState, useCallback } from 'react'
 import styled from 'styled-components'
 import Image from 'next/image'
+import { FaRegWindowClose } from 'react-icons/fa'
 import LayerPopup from './LayerPopup'
-const ImageItems = styled.ul``
+import useFetchCSR from '../hooks/useFetchCSR'
+import color from '../styles/color'
+const { dark, white } = color
+
+const ImageItems = styled.ul`
+  display: flex;
+  flex-wrap: wrap;
+  li {
+    border: 3px solid ${dark};
+    position: relative;
+    margin: 3px 0;
+    border-radius: 3px;
+
+    .remove {
+      position; absolute;
+      top: 5px;
+      right: 5px;
+      cursor: pointer;
+      font-size: 1.5rem;
+      color: ${white};
+    
+    }
+
+    img {
+     cursor: pointer;
+     display: block;
+    }
+  }
+
+  li + li {
+  
+  }
+`
 
 type FileType = {
   items: any
   width?: number
   height?: number
+  callback?: (item: any) => void
 }
 
-const ImageItem = ({ item, width, height }) => {
+const ImageItem = ({ item, width, height, callback }) => {
   const { seq, fileUrl, thumbBaseUrl, fileName, image } = item
   const [open, setOpen] = useState<boolean>(false)
+  const fetchCSR = useFetchCSR()
   const onClose = useCallback(() => setOpen(false), [])
   const onShow = useCallback(() => setOpen(true), [])
+
+  const onRemove = useCallback(
+    (seq) => {
+      fetchCSR(`/file/delete/${seq}`, { method: 'DELETE' })
+        .then((res) => res.json())
+        .then((item) => {
+          // 삭제 후 후속처리
+          if (typeof callback === 'function') {
+            callback(item)
+          }
+        })
+    },
+    [fetchCSR, callback],
+  )
   return (
     image && (
       <li>
+        <FaRegWindowClose className="remove" onClick={() => onRemove(seq)} />
         <Image
           src={`${thumbBaseUrl}&width=${width}&height=${height}&crop=true`}
           alt={fileName}
@@ -40,7 +90,7 @@ const ImageItem = ({ item, width, height }) => {
   )
 }
 
-const FileImages = ({ items, width, height }: FileType) => {
+const FileImages = ({ items, width, height, callback }: FileType) => {
   items = Array.isArray(items) ? items : items ? [items] : []
   if (items.length === 0) return <></>
   width = width ?? 100
@@ -54,6 +104,7 @@ const FileImages = ({ items, width, height }: FileType) => {
           item={item}
           width={width}
           height={height}
+          callback={callback}
         />
       ))}
     </ImageItems>

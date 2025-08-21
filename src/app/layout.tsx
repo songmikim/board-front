@@ -7,7 +7,7 @@ import StyledComponentsRegistry from './registry'
 import { getLoggedMember } from './member/_services/actions'
 import { UserProvider } from './_global/contexts/UserContext'
 import { CommonProvider } from './_global/contexts/CommonContext'
-import LayoutContainer from './_global/wrappers/LayoutContailner'
+import LayoutContainer from './_global/wrappers/LayoutContainer'
 import { redirect } from 'next/navigation'
 
 export const metadata: Metadata = {
@@ -28,7 +28,7 @@ export default async function RootLayout({
 
   return (
     <html lang="ko">
-      <body>
+      <body id="body">
         <StyledComponentsRegistry>
           <CommonProvider>
             <UserProvider
