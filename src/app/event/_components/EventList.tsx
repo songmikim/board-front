@@ -3,6 +3,7 @@
 import React from 'react'
 import Link from 'next/link'
 import styled from 'styled-components'
+import Pagination from '@/app/_global/components/Pagination'
 import type { EventType } from '../_types'
 
 type Props = {
@@ -45,14 +46,6 @@ const Item = styled.li`
   }
 `
 
-const Pagination = styled.nav`
-  margin-top: 20px;
-
-  button {
-    margin-right: 5px;
-  }
-`
-
 const EventList = ({ query, onSearch, events, page, totalPages, onPageChange }: Props) => {
   return (
     <Wrapper>
@@ -74,34 +67,7 @@ const EventList = ({ query, onSearch, events, page, totalPages, onPageChange }: 
           </Item>
         ))}
       </List>
-      {totalPages > 1 && (
-        <Pagination>
-          <button
-            onClick={() => onPageChange(Math.max(page - 1, 1))}
-            disabled={page === 1}
-          >
-            Prev
-          </button>
-          {Array.from({ length: totalPages }).map((_, idx) => {
-            const p = idx + 1
-            return (
-              <button
-                key={p}
-                onClick={() => onPageChange(p)}
-                disabled={p === page}
-              >
-                {p}
-              </button>
-            )
-          })}
-          <button
-            onClick={() => onPageChange(Math.min(page + 1, totalPages))}
-            disabled={page === totalPages}
-          >
-            Next
-          </button>
-        </Pagination>
-      )}
+      <Pagination page={page} totalPages={totalPages} onPageChange={onPageChange} />
     </Wrapper>
   )
 }
