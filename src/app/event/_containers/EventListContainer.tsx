@@ -1,44 +1,49 @@
 'use client'
 
 import React, { useMemo, useState } from 'react'
-import { useRouter } from 'next/navigation'
 import EventList from '../_components/EventList'
-import type { EventType, PaginationType } from '../_types'
+import type { EventType } from '../_types'
 
 type Props = {
   events: EventType[]
-  pagination: PaginationType
 }
 
-const EventListContainer = ({ events, pagination }: Props) => {
+const EventListContainer = ({ events }: Props) => {
   const [query, setQuery] = useState('')
-  const router = useRouter()
+  const [page, setPage] = useState(1)
+  const itemsPerPage = 4
 
   const filteredEvents = useMemo(() => {
     return events.filter((event) =>
-      event.title.toLowerCase().includes(query.toLowerCase())
+      event.title.toLowerCase().includes(query.toLowerCase()),
     )
   }, [events, query])
 
+  const totalPages = Math.ceil(filteredEvents.length / itemsPerPage)
+  const paginatedEvents = useMemo(
+    () => filteredEvents.slice((page - 1) * itemsPerPage, page * itemsPerPage),
+    [filteredEvents, page],
+  )
+
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(e.target.value)
+    setPage(1)
   }
 
   const handlePageChange = (p: number) => {
-    router.push(`/event?page=${p}`)
+    setPage(p)
   }
 
   return (
     <EventList
       query={query}
       onSearch={handleSearch}
-      events={filteredEvents}
-      page={pagination.page}
-      totalPages={pagination.lastPage}
+      events={paginatedEvents}
+      page={page}
+      totalPages={totalPages}
       onPageChange={handlePageChange}
     />
   )
 }
 
 export default React.memo(EventListContainer)
-

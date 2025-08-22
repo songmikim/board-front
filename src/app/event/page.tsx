@@ -1,13 +1,14 @@
-import EventListContainer from './_containers/EventListContainer'
+import type { EventType } from './_types'
 import { getEvents } from './_services/actions'
-import type { EventListData } from './_types'
+import { MainTitle } from '../_global/components/TitleBox'
+import EventListContainer from './_containers/EventListContainer'
 
-type PageProps = {
-  searchParams: { page?: string }
-}
-
-export default async function EventPage({ searchParams }: PageProps) {
-  const page = Number(searchParams.page) || 1
-  const { items, pagination }: EventListData = await getEvents(page)
-  return <EventListContainer events={items} pagination={pagination} />
+export default async function EventPage() {
+  const events: EventType[] = await getEvents()
+  return (
+    <div className="layout-width">
+      <MainTitle border="true">환경 행사</MainTitle>
+      <EventListContainer events={events} />
+    </div>
+  )
 }
