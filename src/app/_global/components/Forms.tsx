@@ -2,7 +2,7 @@
 import styled, { css } from 'styled-components'
 import color from '../styles/color'
 import fontsize from '../styles/fontsize'
-const { dark, light } = color
+const { dark, light, white, black } = color
 const { medium } = fontsize
 
 const commonStyle = css`
@@ -46,6 +46,7 @@ export const Input = styled.input<CommonType>`
 export const Textarea = styled.textarea<CommonType>`
   ${commonStyle}
   height: 150px;
+  resize: none;
   ${({ width }) =>
     width &&
     css`
@@ -82,6 +83,45 @@ export const TableCols = styled.table<TableType>`
     th,
     td {
       border-top: 1px solid #ccc;
+    }
+  }
+
+  td {
+    svg {
+      font-size: 2rem;
+      vertical-align: middle;
+    }
+    span.radio,
+    span.checkbox {
+      margin-right: 15px;
+      cursor: pointer;
+    }
+  }
+
+  & + & {
+    margin-top: 30px;
+  }
+`
+
+export const TableRows = styled.table`
+  ${tableCommonStyle}
+  thead {
+    th {
+      background: ${black};
+      color: ${white};
+      font-size: ${medium};
+      height: 45px;
+      padding: 0 10px;
+    }
+    th + th {
+      border-left: 1px solid ${light};
+    }
+  }
+
+  tbody {
+    td {
+      border-bottom: 1px solid #ccc;
+      padding: 10px;
     }
   }
 `

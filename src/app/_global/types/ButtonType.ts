@@ -5,6 +5,7 @@ type ButtonType = {
   color?: string
   fontColor?: string
   fontSize?: string
+  center?: boolean
 }
 
 export default ButtonType

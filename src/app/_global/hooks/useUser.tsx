@@ -16,6 +16,7 @@ export default function useUser() {
     if (!isLogin) {
       ;(async () => {
         const member = await getLoggedMember()
+
         if (member) {
           setLoggedMember(member)
           setIsLogin(true)
@@ -24,6 +25,12 @@ export default function useUser() {
       })()
     }
   }, [isLogin, setIsAdmin, setIsLogin, setLoggedMember, token, setToken])
+
+  useEffect(() => {
+    if (loggedMember && !loggedMember.profile) {
+      // 기본 이미지 추가
+    }
+  }, [loggedMember])
 
   return { loggedMember, isLogin, isAdmin, token }
 }

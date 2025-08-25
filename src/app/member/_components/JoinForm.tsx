@@ -37,7 +37,7 @@ const JoinForm = ({
           />
 
           <input type="hidden" name="socialToken" value={form.socialToken} />
-          <div>KAKAO 계정 연결 회원가입</div>
+          <div>{form.socialChannel} 계정 연결 회원가입</div>
         </>
       )}
 
@@ -49,28 +49,27 @@ const JoinForm = ({
         onChange={onChange}
       />
       <MessageBox color="danger">{errors?.email}</MessageBox>
-      {!form?.socialChannel ||
-        (!form?.socialToken && (
-          <>
-            <Input
-              type="password"
-              name="password"
-              placeholder="비밀번호를 입력하세요."
-              value={form.password}
-              onChange={onChange}
-            />
-            <MessageBox color="danger">{errors?.password}</MessageBox>
+      {(!form?.socialChannel || !form?.socialToken) && (
+        <>
+          <Input
+            type="password"
+            name="password"
+            placeholder="비밀번호를 입력하세요."
+            value={form.password}
+            onChange={onChange}
+          />
+          <MessageBox color="danger">{errors?.password}</MessageBox>
 
-            <Input
-              type="password"
-              name="confirmPassword"
-              placeholder="비밀번호를 확인하세요."
-              value={form.confirmPassword}
-              onChange={onChange}
-            />
-            <MessageBox color="danger">{errors?.confirmPassword}</MessageBox>
-          </>
-        ))}
+          <Input
+            type="password"
+            name="confirmPassword"
+            placeholder="비밀번호를 확인하세요."
+            value={form.confirmPassword}
+            onChange={onChange}
+          />
+          <MessageBox color="danger">{errors?.confirmPassword}</MessageBox>
+        </>
+      )}
       <Input
         type="text"
         name="name"
@@ -91,8 +90,11 @@ const JoinForm = ({
 
       <h3>프로필 이미지</h3>
 
-      <FileImages items={form.profileImage} callback={fileDeleteCallback} />
-      <FileItems items={form.profileImage} />
+      <FileImages
+        items={form.profileImage}
+        callback={fileDeleteCallback}
+        viewOrgImage={true}
+      />
       <FileUpload
         gid={form.gid}
         imageOnly={true}
