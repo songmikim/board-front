@@ -25,6 +25,32 @@ const EventListContainer = ({ events }: Props) => {
     [filteredEvents, page],
   )
 
+  const createPagination = (
+    current: number,
+    last: number,
+    range = 10,
+  ) => {
+    const start = Math.floor((current - 1) / range) * range + 1
+    const end = Math.min(start + range - 1, last)
+    const pages = [] as Array<[string, string]>
+    for (let i = start; i <= end; i++) {
+      pages.push([i.toString(), '#'])
+    }
+    return {
+      pages,
+      page: current,
+      prevRangePage: start > 1 ? start - 1 : 0,
+      nextRangePage: end < last ? end + 1 : 0,
+      lastPage: last,
+      baseUrl: '#',
+    }
+  }
+
+  const pagination = useMemo(
+    () => createPagination(page, totalPages),
+    [page, totalPages],
+  )
+
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(e.target.value)
     setPage(1)
@@ -39,8 +65,7 @@ const EventListContainer = ({ events }: Props) => {
       query={query}
       onSearch={handleSearch}
       events={paginatedEvents}
-      page={page}
-      totalPages={totalPages}
+      pagination={pagination}
       onPageChange={handlePageChange}
     />
   )
