@@ -38,9 +38,9 @@ export async function processBoardConfig(errors, formData: FormData) {
   const res = await fetchSSR('/board/update/config', {
     method: params.mode === 'update' ? 'PATCH' : 'POST',
     headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
+      'Content-Type': 'application/json',
     },
-    body: new URLSearchParams(params),
+    body: JSON.stringify(params),
   })
 
   // 처리 실패시

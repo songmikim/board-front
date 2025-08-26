@@ -2,7 +2,8 @@ export type AuthorityType = 'ALL' | 'MEMBER' | 'ADMIN'
 export type SkinType = 'default' | 'gallery'
 
 export type BoardConfigType = {
-  mode?: string
+  mode?: 'register' | 'update'
+  chk?: boolean
   bid: string
   name: string
   rowsForPage: number
@@ -16,8 +17,16 @@ export type BoardConfigType = {
   comment: boolean
   afterWritingRedirect: boolean
   showViewList: boolean
-  listAuthority: 'ALL'
-  viewAuthority: 'ALL'
-  writeAuthority: 'ALL'
-  commentAuthority: 'ALL'
+  listAuthority: AuthorityType
+  viewAuthority: AuthorityType
+  writeAuthority: AuthorityType
+  commentAuthority: AuthorityType
 }
+
+export type BoardType = {
+  board: BoardConfigType
+}
+
+export type BoardFormType = {} & BoardType
+
+export type BoardListType = {} & BoardType

@@ -17,6 +17,7 @@ const { black, white } = color
 const Wrapper = styled.div`
   margin: 20px auto;
   display: flex;
+  justify-content: center;
   height: 45px;
   .page {
     border: 1px solid ${black};
@@ -24,11 +25,17 @@ const Wrapper = styled.div`
     text-align: center;
     line-height: 43px;
     border-radius: 3px;
+    min-width: 45px;
+    padding: 0 5px;
 
     &.on {
       background: ${black};
       color: ${white};
     }
+  }
+
+  .page + .page {
+    margin-left: 3px;
   }
 `
 
@@ -67,7 +74,7 @@ const PageItem = ({
 
 const Pagination = ({ pagination, onClick }: PropType) => {
   if (!pagination || pagination.pages.length === 0) return <></>
-  console.log('pagination', pagination)
+
   const { pages, page, prevRangePage, nextRangePage, lastPage, baseUrl } =
     pagination
 

@@ -4,6 +4,7 @@ import { v4 as uuid } from 'uuid'
 import { useSearchParams } from 'next/navigation'
 import { processJoin } from '../_services/actions'
 import JoinForm from '../_components/JoinForm'
+import { passwordStrenthLevel } from '@/app/_global/libs/commons'
 
 type FormType = {
   gid: string
@@ -16,6 +17,7 @@ type FormType = {
   socialChannel?: string
   socialToken?: string | number
   profileImage?: any
+  passwordStrenth?: number
 }
 
 const JoinContainer = () => {
@@ -32,10 +34,17 @@ const JoinContainer = () => {
     termsAgree: false,
     socialChannel: searchParams.get('channel')?.toString(),
     socialToken: searchParams.get('token')?.toString(),
+    passwordStrenth: 0,
   })
 
   const onChange = useCallback((e) => {
-    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }))
+    setForm((prev) => {
+      const data = { ...prev, [e.target.name]: e.target.value }
+      if (e.target.name === 'password') {
+        data.passwordStrenth = passwordStrenthLevel(e.target.value)
+      }
+      return data
+    })
   }, [])
 
   const onToggle = useCallback(() => {

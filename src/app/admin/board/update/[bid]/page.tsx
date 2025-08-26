@@ -1,6 +1,5 @@
 import UpdateContainer from '../../_containers/UpdateContainer'
 import { getBoardConfig } from '@/app/board/_services/boardConfig'
-
 import type { BoardConfigType } from '@/app/board/_types/BoardType'
 import { MainTitle } from '@/app/_global/components/TitleBox'
 import AdminOnlyContainer from '@/app/_global/wrappers/AdminOnlyContainer'

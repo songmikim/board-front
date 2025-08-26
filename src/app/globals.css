@@ -56,6 +56,10 @@ img {
   margin-bottom: 30px !important;
 }
 
+.mr5 {
+  margin-right: 5px !important;
+}
+
 main.main-content {
   min-height: 650px;
 }
