@@ -41,15 +41,21 @@ export async function getCrawlerScheduler(): Promise<boolean> {
 }
 
 export async function saveCrawlerConfigs(configs: CrawlerConfigType[]) {
-  const payload = configs.map((config) => ({
-    ...config,
-    keywords: config.keywords
-      ? config.keywords
-          .split('\n')
-          .map((k) => k.trim())
-          .filter(Boolean)
-      : [],
-  }))
+  const payload = configs
+    .filter((config) =>
+      Object.values(config).some((value) => value.trim()),
+    )
+    .map((config) => ({
+      ...config,
+      keywords: config.keywords
+        ? config.keywords
+            .split('\n')
+            .map((k) => k.trim())
+            .filter(Boolean)
+        : [],
+    }))
+
+  if (!payload.length) return
 
   await fetchSSR('/crawler/configs', {
     method: 'POST',

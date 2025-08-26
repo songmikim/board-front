@@ -17,7 +17,7 @@ export default async function EventPage({
   }
   const { items: events, pagination } = await getEvents(search)
   return (
-    <div className="layout-width">
+    <div className="layout-width pd-top30">
       <MainTitle border="true">환경 행사</MainTitle>
       <EventListContainer events={events} pagination={pagination} search={search} />
     </div>

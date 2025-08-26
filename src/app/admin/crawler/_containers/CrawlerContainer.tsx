@@ -66,9 +66,17 @@ const CrawlerContainer = ({ initialConfigs, initialScheduler }: Props) => {
   )
 
   const save = useCallback(async () => {
+    const validForms = forms.filter((form) =>
+      Object.values(form).some((value) => value.trim()),
+    )
+    if (!validForms.length) {
+      alert('입력값이 없습니다.')
+      return
+    }
+
     setSaving(true)
     try {
-      await saveCrawlerConfigs(forms)
+      await saveCrawlerConfigs(validForms)
       alert('저장되었습니다.')
     } finally {
       setSaving(false)
