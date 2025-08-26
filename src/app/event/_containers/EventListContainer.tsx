@@ -16,7 +16,7 @@ const EventListContainer = ({ events, pagination, search }: Props) => {
   const [query, setQuery] = useState(search?.skey ?? '')
   const router = useRouter()
 
-  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
     setQuery(value)
     const params = new URLSearchParams()
