@@ -3,9 +3,12 @@
 import { fetchSSR } from '@/app/_global/libs/utils'
 import type { EventListDataType } from '../_types'
 
-export async function getEvents(page = 1): Promise<EventListDataType> {
+export async function getEvents(
+  page = 1,
+  limit = 5,
+): Promise<EventListDataType> {
   try {
-    const res = await fetchSSR(`/events?page=${page}`)
+    const res = await fetchSSR(`/events?page=${page}&limit=${limit}`)
     if (res.ok) {
       return await res.json()
     }

@@ -8,9 +8,10 @@ import type { EventType, PaginationType } from '../_types'
 type Props = {
   events: EventType[]
   pagination: PaginationType
+  limit?: number
 }
 
-const EventListContainer = ({ events, pagination }: Props) => {
+const EventListContainer = ({ events, pagination, limit = 5 }: Props) => {
   const [query, setQuery] = useState('')
   const router = useRouter()
 
@@ -25,7 +26,7 @@ const EventListContainer = ({ events, pagination }: Props) => {
   }
 
   const handlePageChange = (p: number) => {
-    router.push(`/event?page=${p}`)
+    router.push(`/event?page=${p}&limit=${limit}`)
   }
 
   return (
