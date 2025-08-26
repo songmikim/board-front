@@ -16,11 +16,13 @@ const EventListContainer = ({ events, pagination, search }: Props) => {
   const [query, setQuery] = useState(search?.skey ?? '')
   const router = useRouter()
 
-const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value
-    setQuery(value)
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setQuery(e.target.value)
+  }
+
+  const handleSearch = () => {
     const params = new URLSearchParams()
-    if (value) params.set('skey', value)
+    if (query) params.set('skey', query)
     params.set('page', '1')
     router.push(`/event?${params.toString()}`)
   }
@@ -35,6 +37,7 @@ const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
   return (
     <EventList
       query={query}
+      onChange={handleChange}
       onSearch={handleSearch}
       events={events}
       pagination={pagination}
