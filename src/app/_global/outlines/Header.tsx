@@ -92,6 +92,7 @@ const Header = () => {
                   viewOnly={true}
                   width={45}
                   height={45}
+                  fallbackImage={NoProfileImage}
                 />
               </Link>
             </>

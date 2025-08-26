@@ -61,7 +61,6 @@ export const Button = styled.button<ButtonType>`
     `
   }}
 
-  
   ${({ center }) =>
     center &&
     css`

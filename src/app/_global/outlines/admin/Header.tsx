@@ -48,7 +48,7 @@ const Header = () => {
   return (
     <StyledHeader>
       <div className="left">
-        <Link href="/">
+        <Link href="/admin">
           <Image src={logo} alt="로고" />
         </Link>
         <span className="badge">
