@@ -36,6 +36,8 @@ export type BoardFormType = {
   onChange: (e: any) => void
   onToggle: (key: string, value: any) => void
   editorCallback: (editor) => void
+  fileUploadCallback: (items: Array<any>) => void
+  fileDeleteCallback: (item: any) => void
 } & BoardType
 
 export type BoardDataType = {
@@ -51,6 +53,8 @@ export type BoardDataType = {
   notice?: boolean
   secret?: boolean
   guest?: boolean
+  editorImages?: Array<any>
+  attachFiles?: Array<any>
 }
 
 export type BoardListType = {} & BoardType

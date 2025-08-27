@@ -16,6 +16,8 @@ import {
   Link,
   BlockQuote,
   ViewElement,
+  ImageInsert,
+  Image,
 } from 'ckeditor5'
 import 'ckeditor5/ckeditor5.css'
 
@@ -51,6 +53,8 @@ const Editor = ({
           Code,
           Link,
           BlockQuote,
+          ImageInsert,
+          Image,
         ],
         toolbar: {
           items: [
@@ -72,7 +76,6 @@ const Editor = ({
             'code',
             '|',
             'link',
-            'uploadImage',
             'blockQuote',
             'codeBlock',
             '|',

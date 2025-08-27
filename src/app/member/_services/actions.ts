@@ -3,25 +3,14 @@ import { redirect } from 'next/navigation'
 import { cookies } from 'next/headers'
 import { revalidateTag } from 'next/cache'
 import { fetchSSR } from '@/app/_global/libs/utils'
-
+import { toPlainObj } from '@/app/_global/libs/commons'
 /**
  * 회원가입 처리
  *
  */
 export async function processJoin(errors, formData: FormData) {
   errors = {}
-  const params: any = {}
-
-  // 필요한 필드와 값만 추출
-  for (const [key, value] of formData.entries()) {
-    if (key.startsWith('$ACTION_')) continue
-    let _value: string | boolean = value.toString()
-    if (['true', 'false'].includes(_value)) {
-      _value = _value === 'true'
-    }
-
-    params[key] = _value
-  }
+  const params: any = toPlainObj(formData)
 
   let hasErrors: boolean = false
   // 필수 항목 검증 S

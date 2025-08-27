@@ -8,6 +8,8 @@ import { Input, Select, Textarea } from '@/app/_global/components/Forms'
 import { SubmitButton } from '@/app/_global/components/Buttons'
 import useUser from '@/app/_global/hooks/useUser'
 import Editor from '@/app/_global/components/Editor'
+import FileUpload from '@/app/_global/components/FileUpload'
+import FileItems from '@/app/_global/components/FileItems'
 
 const StyledForm = styled.form``
 
@@ -20,17 +22,26 @@ const BoardForm = ({
   onChange,
   onToggle,
   editorCallback,
+  fileUploadCallback,
+  fileDeleteCallback,
 }: BoardFormType) => {
   const { isAdmin } = useUser()
-  console.log('board', board)
+
   return (
     <StyledForm action={action} autoComplete="off">
+      <input type="hidden" name="mode" defaultValue={data.mode} />
       <input type="hidden" name="bid" defaultValue={data.bid} />
       <input type="hidden" name="gid" defaultValue={data.gid} />
       <input type="hidden" name="notice" defaultValue={'' + data.notice} />
-
+      {data.mode === 'update' && (
+        <>
+          <input type="hidden" name="seq" defaultValue={data.seq} />
+          <MessageBox color="danger">{errors?.seq}</MessageBox>
+        </>
+      )}
       <MessageBox color="danger">{errors?.bid}</MessageBox>
       <MessageBox color="danger">{errors?.gid}</MessageBox>
+      <MessageBox color="danger">{errors?.global}</MessageBox>
 
       <dl>
         <dt>작성자</dt>
@@ -100,17 +111,49 @@ const BoardForm = ({
         <dd>
           {board.editor ? (
             <>
+            <input type='hidden' name='content' defaultValue={data.content}/>
               <Editor
                 height={350}
                 callback={editorCallback}
                 onChange={onChange}
               />
+              {board.imageUpload && (
+                <>
+                  <FileUpload
+                    gid={data.gid}
+                    location="editor"
+                    imageOnly={true}
+                    callback={fileUploadCallback}
+                  />
+                  <FileItems
+                    items={data.editorImages}
+                    callback={fileDeleteCallback}
+                  />
+                </>
+              )}
             </>
           ) : (
             <Textarea name="content" value={data.content} onChange={onChange} />
           )}
+          <MessageBox color="danger">{errors?.content}</MessageBox>
         </dd>
       </dl>
+      {board.attachFile && (
+        <dl>
+          <dt>파일첨부</dt>
+          <dd>
+            <FileUpload
+              gid={data.gid}
+              location="attach"
+              callback={fileUploadCallback}
+            />
+            <FileItems items={data.attachFiles} callback={fileDeleteCallback} />
+          </dd>
+        </dl>
+      )}
+      <SubmitButton type="submit" width={280}>
+        {data.mode === 'update' ? '수정하기' : '작성하기'}
+      </SubmitButton>
     </StyledForm>
   )
 }
