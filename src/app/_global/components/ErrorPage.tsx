@@ -37,7 +37,6 @@ export default function ErrorPage({
   title,
   description,
 }: ErrorPageProps) {
-
   return (
     <ContentBox>
       <Wrapper>
