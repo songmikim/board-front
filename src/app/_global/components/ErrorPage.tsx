@@ -11,27 +11,8 @@ interface ErrorPageProps {
   statusCode: number | string
   title: string
   description?: string
+  message: string
 }
-
-const Wrapper = styled.section`
-  max-width: 400px;
-  margin: 0 auto;
-  padding: 40px 16px;
-  text-align: center;
-
-  h1 {
-    font-size: 4rem;
-    margin: 0 0 20px;
-  }
-
-  h2 {
-    margin: 0 0 10px;
-  }
-
-  p {
-    margin: 0 0 30px;
-  }
-`
 
 const Wrapper = styled.div`
   text-align: center;

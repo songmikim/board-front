@@ -10,6 +10,7 @@ export type BoardConfigType = {
   pageCount: number
   skin: SkinType
   category?: string
+  categories?: Array<string>
   active: boolean
   editor: boolean
   imageUpload: boolean
@@ -27,6 +28,29 @@ export type BoardType = {
   board: BoardConfigType
 }
 
-export type BoardFormType = {} & BoardType
+export type BoardFormType = {
+  data: BoardDataType
+  errors: any
+  pending: boolean
+  action: any
+  onChange: (e: any) => void
+  onToggle: (key: string, value: any) => void
+  editorCallback: (editor) => void
+} & BoardType
+
+export type BoardDataType = {
+  mode?: string
+  bid: string
+  seq?: number
+  gid: string
+  category?: string
+  poster: string
+  guestPw?: string
+  subject: string
+  content: string
+  notice?: boolean
+  secret?: boolean
+  guest?: boolean
+}
 
 export type BoardListType = {} & BoardType
