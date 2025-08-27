@@ -1,7 +1,6 @@
 'use client'
 
 import React from 'react'
-import Link from 'next/link'
 import styled from 'styled-components'
 import ContentBox from './ContentBox'
 import { Button } from './Buttons'
@@ -38,16 +37,13 @@ export default function ErrorPage({
   title,
   description,
 }: ErrorPageProps) {
-
   return (
     <ContentBox>
       <Wrapper>
         <StatusCode>{statusCode}</StatusCode>
         <Title>{title}</Title>
         {description && <Description>{description}</Description>}
-        <Link href="/">
-          <Button as="a">홈으로 이동</Button>
-        </Link>
+        <Button as="a" href="/">홈으로 이동</Button>
       </Wrapper>
     </ContentBox>
   )
