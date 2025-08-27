@@ -1,6 +1,6 @@
 'use client'
 import styled, { css } from 'styled-components'
-import TitleType from '../types/TItleType'
+import TitleType from '../types/TitleType'
 import color from '../styles/color'
 import fontsize from '../styles/fontsize'
 const { extra } = fontsize

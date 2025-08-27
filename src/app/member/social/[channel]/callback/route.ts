@@ -2,10 +2,8 @@ import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
 import KakaoApi from '../../_services/KakaoApi'
 
-export async function GET(
-  request: NextRequest,
-  { params }: { params: { channel: string } },
-) {
+export async function GET(request: NextRequest, context: any) {
+  const { params } = context as { params: { channel: string } }
   const { searchParams } = new URL(request.url)
   const code = searchParams.get('code')
   const state = searchParams.get('state') || '/'
