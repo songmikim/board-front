@@ -1,7 +1,6 @@
 'use client'
 
 import React from 'react'
-import { useRouter } from 'next/navigation'
 import styled from 'styled-components'
 import ContentBox from './ContentBox'
 import { Button } from './Buttons'
@@ -11,7 +10,6 @@ interface ErrorPageProps {
   statusCode: number | string
   title: string
   description?: string
-  message: string
 }
 
 const Wrapper = styled.div`
@@ -39,7 +37,6 @@ export default function ErrorPage({
   title,
   description,
 }: ErrorPageProps) {
-  const router = useRouter()
 
   return (
     <ContentBox>
@@ -47,7 +44,7 @@ export default function ErrorPage({
         <StatusCode>{statusCode}</StatusCode>
         <Title>{title}</Title>
         {description && <Description>{description}</Description>}
-        <Button type="button" onClick={() => router.push('/')}>홈으로 이동</Button>
+        <Button as="a" href="/">홈으로 이동</Button>
       </Wrapper>
     </ContentBox>
   )
