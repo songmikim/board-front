@@ -1,6 +1,7 @@
 'use server'
 
 import { cookies } from 'next/headers'
+import { forbidden, unauthorized } from 'next/navigation'
 
 /**
  * token 쿠키값 조회
@@ -31,7 +32,14 @@ export async function fetchSSR(url, options: RequestInit = {}) {
     options.headers['User-Hash'] = userHash
   }
 
-  return fetch(`${process.env.API_URL}${url}`, options)
+  const res = await fetch(`${process.env.API_URL}${url}`, options)
+  if (res.status === 401) {
+    unauthorized()
+  }
+  if (res.status === 403) {
+    forbidden()
+  }
+  return res
 }
 
 export async function toQueryString(search) {
