@@ -43,7 +43,7 @@ export default function ErrorPage({
         <StatusCode>{statusCode}</StatusCode>
         <Title>{title}</Title>
         {description && <Description>{description}</Description>}
-        <Button as="a" href="/">홈으로 이동</Button>
+        <Button as="a" href="/" className='pd10'>홈으로 이동</Button>
       </Wrapper>
     </ContentBox>
   )

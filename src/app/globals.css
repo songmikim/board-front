@@ -92,3 +92,7 @@ main.main-content {
     transform: rotate(360deg);
   }
 }
+
+.pd10 {
+  padding: 10px;
+}

@@ -4,23 +4,41 @@ import { cookies } from 'next/headers'
 import { revalidateTag } from 'next/cache'
 import { fetchSSR } from '@/app/_global/libs/utils'
 import { toPlainObj } from '@/app/_global/libs/commons'
+
 /**
  * 회원가입 처리
  *
  */
 export async function processJoin(errors, formData: FormData) {
   errors = {}
-  const params: any = toPlainObj(formData)
+  const params = toPlainObj(formData)
 
   let hasErrors: boolean = false
+  const isSocial = params?.socialChannel && params?.socialToken // 소셜 연결 회원가입 여부
+
   // 필수 항목 검증 S
-  const requiredFields = {
+  type RequiredFieldType = {
+    email: string
+    password?: string
+    confirmPassword?: string
+    name: string
+    mobile: string
+    termsAgree: string
+  }
+
+  const requiredFields: RequiredFieldType = {
     email: '이메일을 입력하세요.',
     password: '비밀번호를 입력하세요.',
     confirmPassword: '비밀번호를 확인하세요.',
     name: '회원이름을 입력하세요.',
     mobile: '휴대전화번호를 입력하세요.',
     termsAgree: '회원가입 약관에 동의하세요.',
+  }
+
+  if (isSocial) {
+    // 소셜 연결 회원가입인 경우 비밀번호, 비밀번호 확인은 필수 X
+    delete requiredFields.password
+    delete requiredFields.confirmPassword
   }
 
   for (const [field, message] of Object.entries(requiredFields)) {
@@ -37,11 +55,13 @@ export async function processJoin(errors, formData: FormData) {
   // 필수 항목 검증 E
 
   // 비밀번호, 비밀번호 확인 일치 여부
-  const password = params.password?.trim()
-  if (password && password !== params.confirmPassword?.trim()) {
-    errors.confirmPassword = errors.confirmPassword ?? []
-    errors.confirmPassword.push('비밀번호가 일치하지 않습니다.')
-    hasErrors = true
+  if (!isSocial) {
+    const password = params.password?.trim()
+    if (password && password !== params.confirmPassword?.trim()) {
+      errors.confirmPassword = errors.confirmPassword ?? []
+      errors.confirmPassword.push('비밀번호가 일치하지 않습니다.')
+      hasErrors = true
+    }
   }
 
   // 검증 실패시에는 에레 메세지를 출력하기 위한 상태값을 반환
@@ -141,7 +161,6 @@ export async function processLogin(errors, formData: FormData) {
  */
 export async function getLoggedMember() {
   try {
-
     const res = await fetchSSR('/member', {
       method: 'GET',
       next: {

@@ -1,5 +1,4 @@
 'use server'
-
 import { toPlainObj } from '@/app/_global/libs/commons'
 import { fetchSSR } from '@/app/_global/libs/utils'
 import { getBoardConfig } from './boardConfig'
@@ -15,11 +14,13 @@ export async function processUpdate(errors: any, formData: FormData) {
   const params = toPlainObj(formData)
 
   let hasErrors: boolean = false
+
   const board = await getBoardConfig(params.bid)
   if (!board.bid) {
     errors.global = '게시판을 찾을 수 없습니다.'
     hasErrors = true
   }
+
   // 유효성 검사 S
   const requiredFields = {
     bid: '잘못된 접근입니다.',
@@ -33,7 +34,6 @@ export async function processUpdate(errors: any, formData: FormData) {
     if (!params[field]?.trim()) {
       errors[field] = message
       hasErrors = true
-      break
     }
   }
 
@@ -58,13 +58,11 @@ export async function processUpdate(errors: any, formData: FormData) {
   })
 
   const data = await res.json()
-  let redirectUrl = `/board/list/${data.bid}`
+  let redirectUrl = `/board/list/${board.bid}`
   if ([200, 201].includes(res.status)) {
-
     // 게시글 등록, 수정 성공
-    const { afterWritingRedirect, bid } = board
-    redirectUrl = afterWritingRedirect ? `/board/view/${data.seq}`
-      : redirectUrl;    
+    const { afterWritingRedirect } = board
+    redirectUrl = afterWritingRedirect ? `/board/view/${data.seq}` : redirectUrl
   } else {
     return data.messages
   }
