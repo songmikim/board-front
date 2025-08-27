@@ -5,6 +5,7 @@ import styled from 'styled-components'
 import ContentBox from './ContentBox'
 import { Button } from './Buttons'
 import fontsize from '../styles/fontsize'
+import mainImage from '../assets/images/main.jpg'
 
 interface ErrorPageProps {
   statusCode: number | string
@@ -12,9 +13,20 @@ interface ErrorPageProps {
   description?: string
 }
 
+const Background = styled.div`
+  background: url(${mainImage.src}) no-repeat center/cover;
+  min-height: 100vh;
+`
+
 const Wrapper = styled.div`
+  background: rgba(255,255,255,0.7);
+  margin-top: 10%;
   text-align: center;
   padding: 120px 0;
+
+  a {
+    padding: 10px 15px;
+  }
 `
 
 const StatusCode = styled.h1`
@@ -24,7 +36,7 @@ const StatusCode = styled.h1`
 
 const Title = styled.h2`
   font-size: ${fontsize.extra};
-  margin: 0 0 10px;
+  margin: 0 0 20px;
 `
 
 const Description = styled.p`
@@ -38,13 +50,15 @@ export default function ErrorPage({
   description,
 }: ErrorPageProps) {
   return (
-    <ContentBox>
-      <Wrapper>
-        <StatusCode>{statusCode}</StatusCode>
-        <Title>{title}</Title>
-        {description && <Description>{description}</Description>}
-        <Button as="a" href="/" className='pd10'>홈으로 이동</Button>
-      </Wrapper>
-    </ContentBox>
+    <Background>
+      <ContentBox>
+        <Wrapper>
+          <StatusCode>{statusCode}</StatusCode>
+          <Title>{title}</Title>
+          {description && <Description>{description}</Description>}
+          <Button as="a" href="/" >홈으로 이동</Button>
+        </Wrapper>
+      </ContentBox>
+    </Background>
   )
 }
