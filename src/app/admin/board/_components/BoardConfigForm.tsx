@@ -407,7 +407,7 @@ const BoardConfigForm = ({
                 className="radio"
                 onClick={() => onKeyValue('viewAuthority', 'ADMIN')}
               >
-                {form.listAuthority === 'ADMIN' ? (
+                {form.viewAuthority === 'ADMIN' ? (
                   <MdOutlineRadioButtonChecked />
                 ) : (
                   <MdOutlineRadioButtonUnchecked />
