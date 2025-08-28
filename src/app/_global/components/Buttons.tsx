@@ -17,6 +17,10 @@ const commonStyle = css`
   svg {
     margin-right: 10px;
   }
+
+  &:disabled {
+    opacity: 0.7;
+  }
 `
 
 export const Button = styled.button<ButtonType>`

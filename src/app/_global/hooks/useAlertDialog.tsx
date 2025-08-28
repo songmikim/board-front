@@ -19,9 +19,9 @@ export default function useAlertDialog() {
       text,
       icon,
       confirmButtonText: '확인',
-    }).then(() => {
+    }).then((result) => {
       // 후속 처리
-      if (typeof callback === 'function') {
+      if (result.isConfirmed && typeof callback === 'function') {
         callback()
       }
     })
