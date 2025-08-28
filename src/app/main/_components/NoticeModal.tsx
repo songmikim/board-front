@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
 import styled from 'styled-components'
 import { format } from 'date-fns'
@@ -71,13 +71,39 @@ const OverlayTexts = styled.div`
   }
 
 `
+const Buttons = styled.div`
+  margin-top: 20px;
+  text-align: right;
+
+  button {
+    border: none;
+    background: none;
+    color: #666;
+    cursor: pointer;
+    font-size: 0.875rem;
+  }
+`
 
 type Props = {
   items?: Array<BoardDataType>
 }
 
 const NoticeModal = ({ items }: Props) => {
-  const [open, setOpen] = useState(true)
+  const [open, setOpen] = useState(false)
+
+  useEffect(() => {
+    const today = format(new Date(), 'yyyy-MM-dd')
+    const hideDate = localStorage.getItem('hideNoticeDate')
+    if (hideDate !== today) {
+      setOpen(true)
+    }
+  }, [])
+
+  const handleHideToday = () => {
+    const today = format(new Date(), 'yyyy-MM-dd')
+    localStorage.setItem('hideNoticeDate', today)
+    setOpen(false)
+  }
 
   return (
     <LayerPopup isOpen={open} onClose={() => setOpen(false)} width={500}>
@@ -106,6 +132,11 @@ const NoticeModal = ({ items }: Props) => {
           <li className='center'>공지글이 없습니다.</li>
         )}
       </List>
+      <Buttons>
+        <button type="button" onClick={handleHideToday}>
+          오늘 하루 안보기
+        </button>
+      </Buttons>
     </LayerPopup>
   )
 }
