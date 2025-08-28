@@ -1,8 +1,16 @@
 import React from 'react'
 import type { BoardListType } from '@/app/board/_types/BoardType'
 import BoardListItems from './BoardListItems'
-const BoardList = ({ board, items }: BoardListType) => {
-  return <BoardListItems items={items} />
+import BoardSearchForm from './BoardSearchForm'
+import BoardCategory from './BoardCategory'
+const BoardList = ({ board, items, search }: BoardListType) => {
+  return (
+    <>
+      <BoardCategory board={board} />
+      <BoardListItems items={items} />
+      <BoardSearchForm search={search} board={board} />
+    </>
+  )
 }
 
 export default React.memo(BoardList)

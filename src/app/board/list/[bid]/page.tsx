@@ -1,14 +1,13 @@
 import ContentBox from '@/app/_global/components/ContentBox'
 import { MainTitle } from '@/app/_global/components/TitleBox'
 import { getBoardConfig } from '../../_services/boardConfig'
+import { getList } from '../../_services/boardData'
 import type {
   BoardConfigType,
   BoardSearchType,
   BoardListType,
 } from '../../_types/BoardType'
 import ListContainer from '../../_containers/ListContainer'
-import { getList } from '../../_services/boardData'
-
 export default async function ListPage({
   params,
   searchParams,
@@ -21,10 +20,16 @@ export default async function ListPage({
   const search = await searchParams
 
   const { items, pagination } = await getList(bid, search)
+
   return (
     <ContentBox>
       <MainTitle border="true">{board.name}</MainTitle>
-      <ListContainer board={board} items={items} pagination={pagination} />
+      <ListContainer
+        board={board}
+        items={items}
+        pagination={pagination}
+        search={search}
+      />
     </ContentBox>
   )
 }

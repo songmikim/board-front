@@ -48,7 +48,7 @@ const StyledItems = styled.ul`
 
         span {
           display: inline-block;
-          padding: 5px 7px;
+          padding: 7px 8px;
           line-height: 1;
           border-radius: 3px;
           margin-right: 3px;
@@ -64,6 +64,11 @@ const StyledItems = styled.ul`
         }
       }
     }
+  }
+
+  .no-data {
+    display: block;
+    text-align: center;
   }
 `
 
