@@ -3,10 +3,10 @@ import React, { useState } from 'react'
 import Image from 'next/image'
 import styled from 'styled-components'
 import { format } from 'date-fns'
-import LayerPopup from '../_global/components/LayerPopup'
+import LayerPopup from '../../_global/components/LayerPopup'
 import type { BoardDataType } from '@/app/board/_types/BoardType'
 import guideImg from '@/app/_global/assets/images/guide.png'
-import fontsize from '../_global/styles/fontsize'
+import fontsize from '../../_global/styles/fontsize'
 
 const Title = styled.h1`
   font-size: ${fontsize.big};
@@ -83,11 +83,10 @@ const NoticeModal = ({ items }: Props) => {
     <LayerPopup isOpen={open} onClose={() => setOpen(false)} width={500}>
       <ImageWrapper>
         <Image src={guideImg} alt="guide" width={500} />
-        {/* 공지 타이틀 */}
       <Title>공지사항</Title>
         <OverlayTexts>
           <h2>단순한 배경에서<br/>촬영해주세요</h2>
-          <p>배경이 복잡하거나 물건이 많이 보이는 경우에는 정확도가 떨어질 수 있으니, 가능하다면 깔끔한 배경 위에서 촬영해 주시기 바랍니다.</p>
+          <p>배경이 복잡하거나 물건이 많이 보이는 경우에는 정확도가 떨어질 수 있으니, 가능하다면 깔끔한 배경에서 촬영해 주시기 바랍니다.</p>
         </OverlayTexts>
       </ImageWrapper>
 
