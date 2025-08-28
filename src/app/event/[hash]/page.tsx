@@ -3,7 +3,11 @@ import { MainTitle } from '../../_global/components/TitleBox'
 import { getEvent } from '../_services/actions'
 import type { EventType } from '../_types'
 
-export default async function EventDetailPage({ params }) {
+export default async function EventDetailPage({
+  params,
+}: {
+  params: Promise<{ hash: string }>
+}): Promise<JSX.Element | null> {
   const { hash } = await params
   const event: EventType | null = await getEvent(hash)
 

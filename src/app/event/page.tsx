@@ -7,7 +7,7 @@ export default async function EventPage({
   searchParams,
 }: {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>
-}) {
+}): Promise<JSX.Element> {
   const params = await searchParams
   const search: CommonSearchType = {
     page: Number(params?.page as string) || 1,
