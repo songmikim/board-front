@@ -34,7 +34,7 @@ const NoticeModal = ({ items }: Props) => {
 
   return (
     <LayerPopup isOpen={open} onClose={() => setOpen(false)} width={500}>
-      <Image src="/globe.svg" alt="guide" width={480} height={240} />
+      <Image src="/assets/images/guide.png" alt="guide" width={480} height={240} />
       <List>
         {items && items.length > 0 ? (
           items.map((item) => (
