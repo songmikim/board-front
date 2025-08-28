@@ -3,7 +3,7 @@
 import React from 'react'
 import Link from 'next/link'
 import styled from 'styled-components'
-import type { EventType } from '../_types'
+import type { EventType, PaginationType } from '../_types'
 import color from '@/app/_global/styles/color'
 import fontsize from '@/app/_global/styles/fontsize'
 import Pagination from '@/app/_global/components/Pagination'
@@ -13,7 +13,7 @@ type Props = {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
   onSearch: () => void
   events: EventType[]
-  pagination: any
+  pagination: PaginationType
   onPageChange: (p: number) => void
 }
 

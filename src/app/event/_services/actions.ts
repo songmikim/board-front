@@ -2,7 +2,7 @@
 
 import { fetchSSR } from '@/app/_global/libs/utils'
 import type CommonSearchType from '@/app/_global/types/CommonSearchType'
-import type { EventListDataType } from '../_types'
+import type { EventListDataType, EventType } from '../_types'
 
 export async function getEvents(
   search: CommonSearchType = {},
@@ -37,7 +37,7 @@ export async function getEvents(
   }
 }
 
-export async function getEvent(hash: string) {
+export async function getEvent(hash: string): Promise<EventType | null> {
   try {
     const res = await fetchSSR(`/events/${hash}`)
     if (res.ok) {
