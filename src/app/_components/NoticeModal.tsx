@@ -7,7 +7,9 @@ import type { BoardDataType } from '@/app/board/_types/BoardType'
 
 const List = styled.ul`
   margin-top: 20px;
-  li + li {
+
+  li {
+    border-bottom: 1px solid #ccc;
     margin-top: 10px;
   }
   a {
@@ -25,7 +27,8 @@ const NoticeModal = ({ items }: Props) => {
 
   return (
     <LayerPopup isOpen={open} onClose={() => setOpen(false)} width={500}>
-      <Image src="/globe.svg" alt="guide" width={480} height={240} />
+      <Image src="/" alt="guide" width={480} height={240} />
+      <h2>공지사항</h2>
       <List>
         {items?.map((item) => (
           <li key={item.seq}>
