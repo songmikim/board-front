@@ -2,19 +2,10 @@
 import { redirect } from 'next/navigation'
 import { fetchSSR } from '@/app/_global/libs/utils'
 import { toPlainObj } from '@/app/_global/libs/commons'
-
 export async function processBoardConfig(errors, formData: FormData) {
   errors = {}
   const params = toPlainObj(formData)
-  const searchParams = new URLSearchParams()
-  for (const [key, value] of Object.entries(params)) {
-    if (typeof value === 'boolean') {
-      searchParams.append(key, value ? 'true' : 'false')
-    } else if (value !== undefined && value !== null) {
-      searchParams.append(key, String(value))
-    }
-  }
-  
+
   // 필수 항목 검증 S
   let hasErrors: boolean = false
 
@@ -36,9 +27,9 @@ export async function processBoardConfig(errors, formData: FormData) {
   const res = await fetchSSR('/board/update/config', {
     method: params.mode === 'update' ? 'PATCH' : 'POST',
     headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
+      'Content-Type': 'application/json',
     },
-    body: searchParams,
+    body: JSON.stringify(params),
   })
 
   // 처리 실패시

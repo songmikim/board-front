@@ -94,7 +94,7 @@ const StyledLinks = styled.div`
   }
 `
 
-const BoardView = ({ board, data }: BoardViewType) => {
+const BoardView = ({ board, data, onDelete }: BoardViewType) => {
   return (
     data && (
       <>
@@ -140,7 +140,10 @@ const BoardView = ({ board, data }: BoardViewType) => {
           )}
           {data.editable && (
             <>
-              <a href={'/board/delete/' + data.seq} className="btn2">
+              <a
+                className="btn2"
+                onClick={onDelete}
+              >
                 글삭제
               </a>
               <a href={'/board/update/' + data.seq} className="btn3">

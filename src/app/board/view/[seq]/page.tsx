@@ -3,6 +3,8 @@ import { MainTitle } from '@/app/_global/components/TitleBox'
 import { get, getList } from '../../_services/boardData'
 import ViewContainer from '../../_containers/ViewContainer'
 import ListContainer from '../../_containers/ListContainer'
+import CommentContainer from '../../_containers/CommentContainer'
+
 import type { BoardDataType, BoardSearchType } from '../../_types/BoardType'
 export default async function ViewPage({
   params,
@@ -30,7 +32,8 @@ export default async function ViewPage({
     <ContentBox>
       {board?.name && <MainTitle border="true">{board.name}</MainTitle>}
       <ViewContainer board={board} data={data} />
-      {board?.showViewList && (
+      <CommentContainer board={board} data={data}/>
+      {board?.listable && board?.showViewList && (
         <ListContainer
           board={board}
           items={items}
